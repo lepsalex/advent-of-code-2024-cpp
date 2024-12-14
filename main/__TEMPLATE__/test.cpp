@@ -12,8 +12,8 @@ TEST(SolutionTest, PartOneExample) {
 
     const auto lines = clean_input(input);
 
-    constexpr int expected = 0;
-    const int actual = solution_part_one(lines);
+    constexpr long expected = 0;
+    const long actual = solution_part_one(lines);
 
     EXPECT_EQ(actual, expected);
 }
@@ -27,8 +27,8 @@ TEST(SolutionTest, PartTwoExample) {
 
     const auto lines = clean_input(input);
 
-    constexpr int expected = 0;
-    const int actual = solution_part_two(lines);
+    constexpr long expected = 0;
+    const long actual = solution_part_two(lines);
 
     EXPECT_EQ(actual, expected);
 }

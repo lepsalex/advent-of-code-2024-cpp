@@ -5,6 +5,9 @@
 #include <map>
 #include <ranges>
 
+namespace rng = std::ranges;
+namespace rv = std::ranges::views;
+
 void parse_to_lists(const std::vector<std::string> &input, std::vector<long> &left_out, std::vector<long> &right_out);
 
 long solution_part_one(const std::vector<std::string> &input) {
@@ -14,8 +17,8 @@ long solution_part_one(const std::vector<std::string> &input) {
     parse_to_lists(input, left, right);
 
     // sort
-    std::ranges::sort(left);
-    std::ranges::sort(right);
+    rng::sort(left);
+    rng::sort(right);
 
     long difference_sum = 0;
 
@@ -60,16 +63,16 @@ void parse_to_lists(const std::vector<std::string> &input, std::vector<long> &le
 
     // for each line, get the left/right numbers and put them into the vectors above
     for (const auto &line: input) {
-        auto parts = std::views::split(line, std::ranges::subrange(delimiter.begin(), delimiter.end()));
+        auto parts = rv::split(line, rng::subrange(delimiter.begin(), delimiter.end()));
 
         auto it = parts.begin();
 
-        std::string left_val(std::ranges::begin(*it), std::ranges::end(*it));
+        std::string left_val(rng::begin(*it), rng::end(*it));
         left_out.push_back(std::stol(left_val));
 
         std::advance(it, 1);
 
-        std::string right_val(std::ranges::begin(*it), std::ranges::end(*it));
+        std::string right_val(rng::begin(*it), rng::end(*it));
         right_out.push_back(std::stol(right_val));
     }
 }
