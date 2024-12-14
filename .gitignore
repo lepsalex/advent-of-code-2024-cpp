@@ -37,3 +37,6 @@ bazel-*
 # CLion
 .clwb
 .idea
+
+# AOC
+input.txt
