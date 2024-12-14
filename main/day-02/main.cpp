@@ -18,10 +18,10 @@ int main(const int argc, char *argv[]) {
         return 1;
     }
 
-    const int one = solution_part_one(input_lines);
-    const int two = solution_part_two(input_lines);
+    const long one = solution_part_one(input_lines);
+    const long two = solution_part_two(input_lines);
 
-    printf("Part One: %d, Part Two: %d\n", one, two);
+    std::print("Part One: {}, Part Two: {}\n", one, two);
 
     return 0;
 }

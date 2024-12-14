@@ -15,7 +15,7 @@ TEST(SolutionTest, PartOneExample) {
 
     const auto lines = clean_input(input);
 
-    constexpr long expected = 0;
+    constexpr long expected = 2;
     const long actual = solution_part_one(lines);
 
     EXPECT_EQ(actual, expected);
