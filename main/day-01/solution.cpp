@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <istream>
 #include <map>
+#include <numeric>
 #include <ranges>
 
 namespace rng = std::ranges;
@@ -35,27 +36,24 @@ long solution_part_two(const std::vector<std::string> &input) {
     std::vector<long> right;
     parse_to_lists(input, left, right);
 
-    // create a map of how often a number occurs in the right list
-    std::map<long, int> frequency_map;
-    for (auto num: right) {
-        if (!frequency_map.contains(num)) {
-            frequency_map[num] = 0;
+    const auto frequency_map = std::accumulate(right.begin(), right.end(), std::map<long, int>{},
+                                               [](const auto map, const auto num) {
+                                                   if (!map.contains(num)) {
+                                                       map[num] = 0;
+                                                   }
+
+                                                   map[num] += 1;
+
+                                                   return map;
+                                               });
+
+    return rng::fold_left(left, 0L, [frequency_map](const auto sum, const auto num) {
+        if (frequency_map.contains(num)) {
+            return sum + (num * frequency_map.at(num));
         }
 
-        frequency_map[num]++;
-    }
-
-    // calculate the sum by multiplying left numbers by the right's frequency if they exist
-    long frequency_sum = 0;
-    for (auto num: left) {
-        if (!frequency_map.contains(num)) {
-            continue;
-        }
-
-        frequency_sum += num * frequency_map[num];
-    }
-
-    return frequency_sum;
+        return sum;
+    });
 }
 
 void parse_to_lists(const std::vector<std::string> &input, std::vector<long> &left_out, std::vector<long> &right_out) {
