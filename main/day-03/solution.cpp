@@ -8,10 +8,10 @@
 namespace rng = std::ranges;
 namespace rv = std::ranges::views;
 
+std::string get_input_as_string(const std::vector<std::string> &input);
+
 long solution_part_one(const std::vector<std::string> &input) {
-    const auto text = input
-                      | rv::join
-                      | rng::to<std::string>();
+    const auto text = get_input_as_string(input);
 
     const std::regex regex(R"(mul\((\d{1,3}),(\d{1,3})\))");
     std::sregex_iterator start{text.begin(), text.end(), regex};
@@ -24,9 +24,36 @@ long solution_part_one(const std::vector<std::string> &input) {
 }
 
 long solution_part_two(const std::vector<std::string> &input) {
-    for (const auto &line: input) {
-        std::print("{}\n", line);
-    }
+    const auto text = get_input_as_string(input);
 
-    return 0;
+    const std::regex regex(R"(mul\((\d{1,3}),(\d{1,3})\)|don't|do)");
+    std::sregex_iterator start{text.begin(), text.end(), regex};
+    const std::sregex_iterator end;
+
+    bool is_doing = true;
+
+    return std::accumulate(start, end, 0, [&is_doing](const long result, const std::smatch &matches) {
+        if (matches[0] == "don't") {
+            is_doing = false;
+            return result;
+        }
+
+        if (matches[0] == "do") {
+            is_doing = true;
+            return result;
+        }
+
+        if (!is_doing) {
+            return result;
+        }
+
+        const long product = std::stol(matches[1].str()) * std::stol(matches[2].str());
+        return result + product;
+    });
+}
+
+std::string get_input_as_string(const std::vector<std::string> &input) {
+    return input
+           | rv::join
+           | rng::to<std::string>();
 }
